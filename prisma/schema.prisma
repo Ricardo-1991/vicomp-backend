@@ -14,16 +14,16 @@ datasource db {
 }
 
 model User {
-  id                    Int      @id @default(autoincrement())
+  id                    Int     @id @default(autoincrement())
   name                  String
   gender                String
-  birthDate             DateTime
-  cpf                   String   @unique
-  email                 String   @unique
+  birthDate             String
+  cpf                   String  @unique
+  email                 String  @unique
   password              String
   cityId                Int
-  city                  City     @relation(fields: [cityId], references: [id])
-  privacyPolicyAccepted Boolean  @default(false)
+  // city                  City     @relation(fields: [cityId], references: [id])
+  privacyPolicyAccepted Boolean @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -31,10 +31,10 @@ model User {
   @@map("users")
 }
 
-model City {
-  id    Int    @id @default(autoincrement())
-  name  String
-  users User[]
+// model City {
+//   id    Int    @id @default(autoincrement())
+//   name  String
+//   users User[]
 
-  @@map("cities")
-}
+//   @@map("cities")
+// }

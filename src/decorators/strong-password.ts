@@ -1,4 +1,3 @@
-// password-validator.decorator.ts
 import {
   registerDecorator,
   ValidationOptions,
@@ -53,11 +52,11 @@ export function IsStrongPassword(
           };
 
           // Armazena as falhas de validação
-          this.validationErrors = [];
+          const validationErrors: string[] = [];
 
           // Verifica comprimento mínimo
           if (value.length < options.minLength) {
-            this.validationErrors.push(
+            validationErrors.push(
               passwordOptions.customMessages?.minLength ??
                 `Senha deve ter no mínimo ${options.minLength} caracteres.`,
             );
@@ -65,7 +64,7 @@ export function IsStrongPassword(
 
           // Verifica letra maiúscula
           if (options.requireUppercase && !/[A-Z]/.test(value)) {
-            this.validationErrors.push(
+            validationErrors.push(
               passwordOptions.customMessages?.uppercase ??
                 'Senha deve conter pelo menos uma letra maiúscula.',
             );
@@ -73,7 +72,7 @@ export function IsStrongPassword(
 
           // Verifica números
           if (options.requireNumbers && !/[0-9]/.test(value)) {
-            this.validationErrors.push(
+            validationErrors.push(
               passwordOptions.customMessages?.numbers ??
                 'Senha deve conter pelo menos um número.',
             );
@@ -81,18 +80,25 @@ export function IsStrongPassword(
 
           // Verifica caracteres especiais
           if (options.requireSpecialChars && !/[^a-zA-Z0-9]/.test(value)) {
-            this.validationErrors.push(
+            validationErrors.push(
               passwordOptions.customMessages?.specialChars ??
                 'Senha deve conter pelo menos um caractere especial.',
             );
           }
 
-          return this.validationErrors.length === 0;
+          // Se existirem erros, retornamos false e o defaultMessage irá pegar essas mensagens
+          if (validationErrors.length > 0) {
+            args.constraints = validationErrors; // Salva as mensagens de erro
+            return false;
+          }
+
+          return true;
         },
 
         defaultMessage(args: ValidationArguments) {
-          if (this.validationErrors?.length > 0) {
-            return this.validationErrors.join(' ');
+          // Caso haja erros, retornamos as mensagens de erro
+          if (args.constraints && args.constraints.length > 0) {
+            return args.constraints.join(' ');
           }
           return 'Senha inválida';
         },

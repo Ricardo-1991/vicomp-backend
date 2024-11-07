@@ -1,7 +1,7 @@
-import { createUserDto } from '../dtos/createUserDto';
+import { CreateUserDto } from '../dtos/createUserDto';
 
 export abstract class UserRepository {
-  abstract findAll(): Promise<createUserDto[]>;
-  abstract findUnique(email: string, cpf: string): Promise<createUserDto>;
-  abstract create(user: createUserDto): Promise<createUserDto>;
+  abstract findAll(): Promise<CreateUserDto[]>;
+  abstract findUnique(email: string, cpf: string): Promise<CreateUserDto>;
+  abstract create(user: CreateUserDto): Promise<CreateUserDto>;
 }

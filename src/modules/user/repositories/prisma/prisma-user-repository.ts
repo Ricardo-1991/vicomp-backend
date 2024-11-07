@@ -1,16 +1,16 @@
 import { PrismaService } from 'src/database/prisma.service';
 import { UserRepository } from '../user.repository';
-import { createUserDto } from '../../dtos/createUserDto';
+import { CreateUserDto } from '../../dtos/createUserDto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<createUserDto[]> {
+  async findAll(): Promise<CreateUserDto[]> {
     return await this.prisma.user.findMany();
   }
-  async findUnique(email: string, cpf: string): Promise<createUserDto | null> {
+  async findUnique(email: string, cpf: string): Promise<CreateUserDto | null> {
     return await this.prisma.user.findFirst({
       where: {
         OR: [{ email: email }, { cpf: cpf }],
@@ -18,7 +18,7 @@ export class PrismaUserRepository implements UserRepository {
     });
   }
 
-  async create(user: createUserDto): Promise<createUserDto> {
+  async create(user: CreateUserDto): Promise<CreateUserDto> {
     return await this.prisma.user.create({
       data: {
         name: user.name,
