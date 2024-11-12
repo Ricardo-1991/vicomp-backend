@@ -3,16 +3,17 @@ import { CreateUserDto } from './dtos/createUserDto';
 import { UserRepository } from './repositories/user.repository';
 
 import * as bcrypt from 'bcrypt';
+import { UserResponseDto } from './dtos/userResponseDto';
 
 @Injectable()
 export class UserService {
   constructor(private readonly UserRepository: UserRepository) {}
 
-  async findAll(): Promise<CreateUserDto[]> {
+  async findAll(): Promise<UserResponseDto[]> {
     return await this.UserRepository.findAll();
   }
 
-  async create(user: CreateUserDto): Promise<CreateUserDto> {
+  async create(user: CreateUserDto): Promise<UserResponseDto> {
     const userExists = await this.UserRepository.findUnique(
       user.email,
       user.cpf,

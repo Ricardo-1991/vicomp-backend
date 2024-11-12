@@ -14,27 +14,31 @@ datasource db {
 }
 
 model User {
-  id                    Int     @id @default(autoincrement())
-  name                  String
+  id                    Int      @id @default(autoincrement())
+  firstName             String
+  lastName              String
   gender                String
-  birthDate             String
-  cpf                   String  @unique
-  email                 String  @unique
+  birthDate             DateTime
+  cpf                   String   @unique
+  email                 String   @unique
   password              String
-  cityId                Int
-  // city                  City     @relation(fields: [cityId], references: [id])
-  privacyPolicyAccepted Boolean @default(false)
+  Address               Address  @relation(fields: [addressId], references: [id])
+  privacyPolicyAccepted Boolean  @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  addressId Int
 
   @@map("users")
 }
 
-// model City {
-//   id    Int    @id @default(autoincrement())
-//   name  String
-//   users User[]
+model Address {
+  id      Int    @id @default(autoincrement())
+  street  String
+  number  String
+  zipcode String
+  city    String
+  User    User[]
 
-//   @@map("cities")
-// }
+  @@map("address")
+}
