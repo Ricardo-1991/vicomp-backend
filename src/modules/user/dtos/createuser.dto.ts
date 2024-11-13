@@ -10,7 +10,7 @@ import { Type } from 'class-transformer'; // Import necessário para objetos ani
 import { IsDateBR } from 'src/decorators/brazil-date';
 import { FormatCPF, IsCPF } from 'src/decorators/cpf';
 import { CustomPasswordOptions } from 'src/decorators/strong-password';
-import { AddressDto } from './addressDto';
+import { AddressDto } from '../dtos/address.dto';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'O primeiro nome não pode estar vazio.' })
@@ -35,7 +35,7 @@ export class CreateUserDto {
   @IsDateBR({
     message: 'A data deve estar no formato DD/MM/YYYY e ser uma data válida.',
   })
-  birthDate: Date;
+  birthDate: string;
 
   @IsNotEmpty({ message: 'O CPF não pode estar vazio.' })
   @IsCPF({ message: 'CPF inválido.' })

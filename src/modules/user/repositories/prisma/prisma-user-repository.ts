@@ -1,8 +1,9 @@
 import { PrismaService } from 'src/database/prisma.service';
 import { UserRepository } from '../user.repository';
-import { CreateUserDto } from '../../dtos/createUserDto';
+import { CreateUserDto } from '../../dtos/createuser.dto';
 import { Injectable } from '@nestjs/common';
-import { UserResponseDto } from '../../dtos/userResponseDto';
+import { UserResponseDto } from '../../dtos/userresponse.dto';
+import { convertToISODate } from 'src/utils/convert-date';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -28,24 +29,25 @@ export class PrismaUserRepository implements UserRepository {
       },
     }));
   }
-  async findUnique(
-    email: string,
-    cpf: string,
-  ): Promise<UserResponseDto | null> {
+  async findUnique(email: string): Promise<UserResponseDto | null> {
     return await this.prisma.user.findFirst({
       where: {
-        OR: [{ email: email }, { cpf: cpf }],
+        email: email,
+      },
+      include: {
+        Address: true,
       },
     });
   }
 
   async create(user: CreateUserDto): Promise<UserResponseDto> {
+    const isoBirthDate = convertToISODate(user.birthDate);
     const createdUser = await this.prisma.user.create({
       data: {
         firstName: user.firstName,
         lastName: user.lastName,
         gender: user.gender,
-        birthDate: new Date(user.birthDate),
+        birthDate: new Date(isoBirthDate),
         cpf: user.cpf,
         email: user.email,
         password: user.password,
@@ -63,6 +65,7 @@ export class PrismaUserRepository implements UserRepository {
         Address: true,
       },
     });
+
     const userResponse = {
       id: createdUser.id,
       firstName: createdUser.firstName,
