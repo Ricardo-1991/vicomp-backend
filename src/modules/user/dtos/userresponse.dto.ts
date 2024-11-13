@@ -3,6 +3,7 @@ export class UserResponseDto {
   firstName: string;
   lastName: string;
   email: string;
+  password?: string;
   cpf: string;
   address?: {
     street: string;
