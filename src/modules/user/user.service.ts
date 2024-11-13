@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dtos/createUserDto';
+import { CreateUserDto } from './dtos/createuser.dto';
 import { UserRepository } from './repositories/user.repository';
 
 import * as bcrypt from 'bcrypt';
-import { UserResponseDto } from './dtos/userResponseDto';
+import { UserResponseDto } from './dtos/userresponse.dto';
 
 @Injectable()
 export class UserService {
@@ -13,14 +13,15 @@ export class UserService {
     return await this.UserRepository.findAll();
   }
 
+  async findUnique(email: string): Promise<UserResponseDto> {
+    return await this.UserRepository.findUnique(email);
+  }
+
   async create(user: CreateUserDto): Promise<UserResponseDto> {
-    const userExists = await this.UserRepository.findUnique(
-      user.email,
-      user.cpf,
-    );
+    const userExists = await this.UserRepository.findUnique(user.email);
     if (userExists) {
       throw new HttpException(
-        'Usuário com este email ou CPF já existe.',
+        'Usuário com este email ja cadastrado.',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -37,7 +38,8 @@ export class UserService {
       const hashedPassword = await bcrypt.hash(user.password, salt);
       const createUser = { ...user, password: hashedPassword };
       return await this.UserRepository.create(createUser);
-    } catch {
+    } catch (error) {
+      console.log('Aqui esta o erro detalhado', error);
       throw new HttpException(
         'Erro ao criar usuário',
         HttpStatus.INTERNAL_SERVER_ERROR,

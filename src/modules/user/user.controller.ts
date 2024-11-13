@@ -7,7 +7,8 @@ import {
   Post,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dtos/createUserDto';
+import { CreateUserDto } from './dtos/createuser.dto';
+import { Public } from 'src/decorators/is-public';
 
 @Controller('user')
 export class UserController {
@@ -17,6 +18,7 @@ export class UserController {
   async findAll() {
     return await this.userService.findAll();
   }
+  @Public()
   @Post('create')
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() user: CreateUserDto) {
