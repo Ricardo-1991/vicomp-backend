@@ -18,10 +18,14 @@ export class UserService {
   }
 
   async create(user: CreateUserDto): Promise<UserResponseDto> {
-    const userExists = await this.UserRepository.findUnique(user.email);
+    const userExists = await this.UserRepository.findUnique(
+      user.email,
+      user.cpf,
+    );
+
     if (userExists) {
       throw new HttpException(
-        'Usuário com este email ja cadastrado.',
+        'Usuário com essas credenciais já existe no sistema. Verifique o CPF ou o e-mail.',
         HttpStatus.BAD_REQUEST,
       );
     }

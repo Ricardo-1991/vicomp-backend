@@ -29,10 +29,13 @@ export class PrismaUserRepository implements UserRepository {
       },
     }));
   }
-  async findUnique(email: string): Promise<UserResponseDto | null> {
+  async findUnique(
+    email: string,
+    cpf?: string,
+  ): Promise<UserResponseDto | null> {
     return await this.prisma.user.findFirst({
       where: {
-        email: email,
+        OR: [{ email: email }, { cpf: cpf }],
       },
       include: {
         Address: true,

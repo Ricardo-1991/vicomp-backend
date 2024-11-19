@@ -31,11 +31,18 @@ export class AuthService {
       email: foundUser.email,
     };
 
+    const user = {
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      email: foundUser.email,
+    };
+
     const token = this.jwtService.sign(payload);
 
     return {
       token,
       expiresIn: this.jwtExpirationTimeInSeconds,
+      user,
     };
   }
 }
