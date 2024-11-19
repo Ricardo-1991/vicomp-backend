@@ -14,14 +14,14 @@ import { AddressDto } from '../dtos/address.dto';
 
 export class CreateUserDto {
   @IsNotEmpty({ message: 'O primeiro nome não pode estar vazio.' })
-  @Length(5, 100, {
-    message: 'O nome deve ter no mínimo 5 e no máximo 100 caracteres.',
+  @Length(2, 100, {
+    message: 'O nome deve ter no mínimo 2 e no máximo 100 caracteres.',
   })
   firstName: string;
 
   @IsNotEmpty({ message: 'O último nome não pode estar vazio.' })
-  @Length(5, 100, {
-    message: 'O nome deve ter no mínimo 5 e no máximo 100 caracteres.',
+  @Length(2, 100, {
+    message: 'O nome deve ter no mínimo 2 e no máximo 100 caracteres.',
   })
   lastName: string;
 
