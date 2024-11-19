@@ -12,7 +12,7 @@ export class AddressDto {
   number: string;
 
   @IsNotEmpty({ message: 'O CEP não pode estar vazio.' })
-  @Length(8, 8, { message: 'O CEP deve ter 8 caracteres.' })
+  @Length(9, 9, { message: 'O CEP deve ter exatamente 9 caracteres.' })
   @IsString({ message: 'O CEP deve ser uma string.' })
   zipcode: string;
 
