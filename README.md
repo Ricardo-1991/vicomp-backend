@@ -45,18 +45,21 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
-## Run tests
+## Dependencies and Libraries
 
-```bash
-# unit tests
-$ npm run test
+This project uses the following dependencies and libraries:
 
-# e2e tests
-$ npm run test:e2e
+1. **[Prisma Client](https://www.prisma.io/docs/reference/api-reference/prisma-client-reference)**  
+   - ORM tool to interact with databases efficiently and securely.  
+   - Manages models and queries using TypeScript.
 
-# test coverage
-$ npm run test:cov
-```
+2. **[JWT (JsonWebToken)](https://github.com/auth0/node-jsonwebtoken)**  
+   - Library for creating and verifying JSON-based authentication tokens.  
+   - Used to implement secure authentication in the project.
+
+3. **[Bcrypt](https://github.com/kelektiv/node.bcrypt.js)**  
+   - Library for password hashing.  
+   - Ensures secure storage of credentials in the database.
 
 ## Deployment
 
